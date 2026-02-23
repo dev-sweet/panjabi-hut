@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   Package,
@@ -11,8 +11,12 @@ import {
   X,
   Bell,
   Search,
+  NotebookText,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminLayout({
   children,
@@ -20,17 +24,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const navLinks = [
-    { name: "Dashboard", icon: <LayoutDashboard size={20} />, active: true },
-    { name: "Products", icon: <Package size={20} /> },
-    { name: "Customers", icon: <Users size={20} /> },
-    { name: "Settings", icon: <Settings size={20} /> },
-  ];
-
+  // const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900">
-      {/* 1. Mobile Sidebar Overlay (Backdrop) */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm lg:hidden"
@@ -48,26 +47,89 @@ export default function AdminLayout({
         <div className="flex flex-col h-full">
           {/* Logo Section */}
           <div className="flex h-16 items-center px-6 border-b border-slate-100">
-            <div className="h-8 w-8 bg-blue-600 rounded-lg mr-3" />
-            <span className="text-xl font-bold tracking-tight">Shopify BD</span>
+            <Image
+              className="w-full h-auto"
+              src="/logo.png"
+              width={100}
+              height={100}
+              alt="logo"
+            />
           </div>
 
           {/* Navigation Links */}
           <nav className="flex-1 overflow-y-auto p-4 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                href={`/dashboard/${link.name.toLowerCase()}`}
-                key={link.name}
-                className={`flex w-full items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors cursor-pointer ${
-                  link.active
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-100"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                }`}
-              >
-                {link.icon}
-                {link.name}
-              </Link>
-            ))}
+            <Link
+              href="/dashboard"
+              className={`flex w-full items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
+                pathname === "/dashboard"
+                  ? "bg-[#1e3316] text-white shadow-md shadow-blue-100"
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              }`}
+            >
+              <LayoutDashboard size={20} />
+              Dashboard
+            </Link>
+
+            {/* Products */}
+            <Link
+              href="/dashboard/products"
+              className={`flex w-full items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
+                pathname === "/dashboard/products"
+                  ? "bg-[#1e3316] text-white shadow-md shadow-blue-100"
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              }`}
+            >
+              <Package size={20} />
+              Manage Products
+            </Link>
+            <Link
+              href="/dashboard/orders"
+              className={`flex w-full items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
+                pathname === "/dashboard/orders"
+                  ? "bg-[#1e3316] text-white shadow-md shadow-blue-100"
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              }`}
+            >
+              <NotebookText size={20} />
+              Manage Orders
+            </Link>
+            <Link
+              href="/dashboard/products/create"
+              className={`flex w-full items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
+                pathname === "/dashboard/products/create"
+                  ? "bg-[#1e3316] text-white shadow-md shadow-blue-100"
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              }`}
+            >
+              <Plus size={20} />
+              Create New Product
+            </Link>
+
+            {/* Customers */}
+            <Link
+              href="/dashboard/customers"
+              className={`flex w-full items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
+                pathname === "/dashboard/customers"
+                  ? "bg-[#1e3316] text-white shadow-md shadow-blue-100"
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              }`}
+            >
+              <Users size={20} />
+              Customers
+            </Link>
+
+            {/* Settings */}
+            <Link
+              href="/dashboard/settings"
+              className={`flex w-full items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
+                pathname === "/dashboard/settings"
+                  ? "bg-[#1e3316] text-white shadow-md shadow-blue-100"
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+              }`}
+            >
+              <Settings size={20} />
+              Settings
+            </Link>
           </nav>
 
           {/* Footer Navigation (Logout) */}

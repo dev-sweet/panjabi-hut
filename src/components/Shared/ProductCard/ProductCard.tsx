@@ -1,25 +1,35 @@
 import React from "react";
 import { ShoppingCart } from "lucide-react";
+import Image from "next/image";
+import { useProductStore } from "@/store/useProductStore";
+import toast from "react-hot-toast";
+import { Product } from "@/types/product";
 
-interface ProductProps {
-  name: string;
-  originalPrice: number;
-  discountPrice: number;
-  imageUrl: string;
-  isNew?: boolean;
-  isTrending?: boolean;
-}
+const ProductCard = ({ product }: { product: Product }) => {
+  const { addToCart } = useProductStore();
+  const {
+    id,
+    name,
+    image,
+    basePrice,
+    sellingPrice,
+    // description,
+    isNew,
+    isTrending,
+    // sku,
+  } = product;
 
-const ProductCard = ({ product }) => {
   // Calculate discount percentage
-  const { name, originalPrice, discountPrice, imageUrl, isNew, isTrending } =
-    product;
   const discountPercentage = Math.round(
-    ((originalPrice - discountPrice) / originalPrice) * 100,
+    ((basePrice - (sellingPrice || 0)) / basePrice) * 100,
   );
 
+  const handleAddToCart = (itemId: string) => {
+    addToCart({ id: itemId, quantity: 1 });
+    toast.success("Product added to cart!");
+  };
   return (
-    <div className="group relative max-w-sm rounded-md bg-gray-200 shadow-sm shadow-gray-500/40 transition-all hover:shadow-xl border border-gray-800">
+    <div className="group relative max-w-sm rounded-md bg-[#080908] shadow-sm shadow-gray-500/40 transition-all hover:shadow-xl border border-gray-800">
       {/* Top Section: Labels (Left) and Cart Icon (Right) */}
       <div className="absolute left-2 top-2 z-10 flex flex-col gap-1">
         {isNew && (
@@ -40,7 +50,8 @@ const ProductCard = ({ product }) => {
       </div>
 
       <button
-        className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-lg bg-[#00065a] text-white shadow-sm transition-colors hover:bg-gray-700 hover:text-white"
+        onClick={() => handleAddToCart(id)}
+        className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-lg bg-[#080908] text-white shadow-sm transition-colors hover:bg-gray-700 hover:text-white"
         aria-label="Add to cart"
       >
         <ShoppingCart size={20} />
@@ -48,8 +59,10 @@ const ProductCard = ({ product }) => {
 
       {/* Product Image */}
       <div className="relative mb-2 h-50 rounded-md overflow-hidden bg-slate-100">
-        <img
-          src={imageUrl}
+        <Image
+          width={100}
+          height={80}
+          src={image || "/images/01928333345.png"}
           alt={name}
           className="h-50 w-full transition-transform duration-300 group-hover:scale-110"
         />
@@ -57,22 +70,24 @@ const ProductCard = ({ product }) => {
 
       {/* Product Details */}
       <div className="p-2">
-        <h3 className="md:text-lg font-semibold text-slate-800 line-clamp-1">
+        <h3 className="md:text-lg text-sm font-semibold text-slate-200 line-clamp-1">
           {name}
         </h3>
 
         <div className="flex items-center justify-center gap-2">
-          <span className="text-lg text-gray-400 line-through">
-            TK. {originalPrice}
-          </span>
-          <span className="text-lg font-bold text-slate-900">
-            TK. {discountPrice}
+          {sellingPrice && (
+            <span className="text-lg text-gray-400 line-through">
+              TK. {basePrice}
+            </span>
+          )}
+          <span className="text-lg font-bold text-slate-200">
+            TK. {sellingPrice || basePrice}
           </span>
         </div>
 
         {/* Action Button */}
         <div className="flex items-center justify-center">
-          <button className="flex w-28 text-sm items-center justify-center gap-1 rounded-lg bg-slate-900 py-2 font-medium text-white transition-all hover:bg-slate-700 active:scale-[0.98] cursor-pointer">
+          <button className="flex w-28 text-xs items-center justify-center gap-1 rounded-lg bg-[#1e3316] py-2 font-bold uppercase text-slate-100 transition-all hover:bg-[#043d13] active:scale-[0.98] cursor-pointer">
             Order Now
           </button>
         </div>
