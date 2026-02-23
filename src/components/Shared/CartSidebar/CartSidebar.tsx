@@ -1,12 +1,13 @@
 "use client";
 import { X, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface CartItem {
   id: number;
   name: string;
   price: number;
   quantity: number;
-  imageUrl: string;
+  image: string;
 }
 
 interface CartSidebarProps {
@@ -14,42 +15,19 @@ interface CartSidebarProps {
   onClose: () => void;
   items: CartItem[];
 }
-const cartItems = [
-  {
-    id: 1,
-    name: "Quantum Sonic Headphones",
-    price: 199,
-    quantity: 1,
-    imageUrl:
-      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800",
-  },
-  {
-    id: 3,
-    name: "Ultra-Light Running Shoes",
-    price: 95,
-    quantity: 2,
-    imageUrl:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800",
-  },
-  {
-    id: 5,
-    name: "Smart Home Security Camera",
-    price: 59,
-    quantity: 1,
-    imageUrl:
-      "https://images.unsplash.com/photo-1558002038-103792e07924?q=80&w=800",
-  },
-];
-const CartSidebar = ({
-  isOpen,
-  onClose,
-  items = cartItems,
-}: CartSidebarProps) => {
+
+const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
+  const [items, setItems] = useState<CartItem[]>([]);
   const subtotal = items.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0,
   );
 
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setItems(data.data));
+  }, []);
   return (
     <>
       {/* Backdrop */}
@@ -94,7 +72,7 @@ const CartSidebar = ({
                 >
                   <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-slate-100">
                     <img
-                      src={item.imageUrl}
+                      src={item.image}
                       alt={item.name}
                       className="h-full w-full object-cover"
                     />

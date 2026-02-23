@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X, ShoppingCart, User, Search, Shirt } from "lucide-react";
 import Image from "next/image";
 import CartSidebar from "@/components/Shared/CartSidebar/CartSidebar";
@@ -9,6 +9,7 @@ import CartSidebar from "@/components/Shared/CartSidebar/CartSidebar";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "New Arrival", href: "/new" },
