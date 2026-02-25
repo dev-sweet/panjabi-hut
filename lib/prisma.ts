@@ -12,7 +12,7 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient };
 export const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({
-    adapter, // This replaces the need for 'url' in the schema
+    adapter,
   });
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
