@@ -1,5 +1,9 @@
+// import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@/generated/prisma";
+// import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaClient } from "@/generated/prisma";
 import { PrismaPg } from "@prisma/adapter-pg";
+// import { PrismaClient } from "@prisma/client/extension";
 import { Pool } from "pg";
 
 const connectionString = process.env.DATABASE_URL; // The 6543 Pooler URL

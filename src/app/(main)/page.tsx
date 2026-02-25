@@ -10,7 +10,7 @@ export default async function Home() {
   //   (product) => product.category === "Eid Collection",
   // );
 
-  const products = await prisma.product.findMany({});
+  const products: Product[] = await prisma.product.findMany({});
   const eidCollection = products.filter((product) => product.isEidCollection);
   const trendingProducts = products.filter((product) => product.isTrending);
   const premiumPanjabi = products.filter((product) => product.isPremium);
