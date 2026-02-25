@@ -20,6 +20,7 @@ export default async function Home() {
       <HeroSection />
       <EidCollection products={eidCollection} />
       <Trending products={trendingProducts} />
+
       <PremiumPanjabi products={premiumPanjabi} />
     </>
   );

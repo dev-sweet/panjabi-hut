@@ -1,14 +1,13 @@
 "use client";
 import ProductCard from "@/components/Shared/ProductCard/ProductCard";
 import { Product } from "@/types/product";
-import { House, HousePlug } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const ShopPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch("/api/products")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data.data));
   }, []);
