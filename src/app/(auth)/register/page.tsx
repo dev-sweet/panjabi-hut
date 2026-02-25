@@ -3,7 +3,6 @@
 import { FormEvent, useState } from "react";
 import { User, Mail, Lock, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";

@@ -1,38 +1,52 @@
 "use client";
+import { useCartStore } from "@/store/useCartStore";
+import { Product } from "@/types/product";
 import { X, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 
 interface CartSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  items: CartItem[];
 }
 
 const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const subtotal = items.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  );
+  const [items, setItems] = useState<Product[]>([]);
+  const cartItems = useCartStore((state) => state.cart);
+  const ids = cartItems?.map((item) => item.id).join(",");
 
+  const displayCart = useMemo(() => {
+    const productMap = new Map(items.map((item) => [item.id, item]));
+
+    return cartItems
+      ?.map((cartItem) => {
+        const product = productMap.get(cartItem.id);
+        // if (!product) return null;
+
+        const price = product?.sellingPrice ?? product?.basePrice;
+
+        return {
+          ...product,
+          quantity: cartItem.quantity,
+          price,
+          total: price ? price * cartItem.quantity : 0,
+        };
+      })
+      .filter(Boolean);
+  }, [cartItems, items]);
+
+  const total = displayCart.reduce((sum, item) => sum + item.total, 0);
   useEffect(() => {
-    fetch("/api/products")
+    fetch(`/api/products?ids=${ids}`)
       .then((res) => res.json())
       .then((data) => setItems(data.data));
-  }, []);
+  }, [ids]);
+
   return (
     <>
       {/* Backdrop */}
       <div
-        className={`fixed  inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed top-0 left-0 right-0 bottom-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
           isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
@@ -40,7 +54,7 @@ const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
 
       {/* Sidebar Panel */}
       <div
-        className={`fixed right-0 top-16 z-50 h-full w-full max-w-md bg-gray-50 shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`fixed right-0 top-0 z-50 h-full w-full max-w-md bg-gray-50 shadow-2xl transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -51,7 +65,7 @@ const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
               <ShoppingBag size={22} />
               Your Cart{" "}
               <span className="text-sm font-normal text-slate-500">
-                ({items.length} items)
+                {cartItems.length} items
               </span>
             </h2>
             <button
@@ -64,16 +78,18 @@ const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
 
           {/* Cart Items List */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
-            {items.length > 0 ? (
-              items.map((item) => (
+            {displayCart?.length > 0 ? (
+              displayCart?.map((item) => (
                 <div
                   key={item.id}
                   className="flex gap-4 border-b border-slate-50 pb-6 last:border-0"
                 >
                   <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-slate-100">
-                    <img
-                      src={item.image}
-                      alt={item.name}
+                    <Image
+                      width={100}
+                      height={100}
+                      src={item.image as string}
+                      alt={item.name as string}
                       className="h-full w-full object-cover"
                     />
                   </div>
@@ -123,7 +139,7 @@ const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
             <div className="border-t border-slate-100 bg-slate-50 p-6 space-y-4">
               <div className="flex justify-between text-base font-medium text-slate-900">
                 <span>Subtotal</span>
-                <span>${subtotal.toLocaleString()}</span>
+                <span>${total.toFixed(2)}</span>
               </div>
               <p className="text-xs text-slate-500">
                 Shipping and taxes calculated at checkout.

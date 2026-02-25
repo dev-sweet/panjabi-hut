@@ -9,6 +9,7 @@ import {
   MapPin,
   Phone,
 } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -28,17 +29,21 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-slate-900 text-slate-200">
+    <footer className="bg-[#080908] text-gray-200">
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Section */}
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-white tracking-tight">
-              Luxe<span className="text-emerald-500">Threads</span>
-            </h2>
+            <Image
+              src="/logo.png"
+              className="w-64"
+              width={150}
+              height={50}
+              alt="PanjabiHut Logo"
+            />{" "}
             <p className="text-slate-400 text-sm leading-relaxed">
               Experience the finest craftmanship in Premium Panjabis and modern
-              ethnic wear. Elevating tradition since 2010.
+              ethnic wear. Elevating tradition since 2025.
             </p>
             <div className="flex space-x-4">
               <Link

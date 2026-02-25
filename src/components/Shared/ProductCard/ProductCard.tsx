@@ -1,12 +1,14 @@
+"use client";
 import React from "react";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import { useProductStore } from "@/store/useProductStore";
 import toast from "react-hot-toast";
 import { Product } from "@/types/product";
+import { useCartStore } from "@/store/useCartStore";
+import Link from "next/link";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const { addToCart } = useProductStore();
+  const { addToCart } = useCartStore();
   const {
     id,
     name,
@@ -29,7 +31,10 @@ const ProductCard = ({ product }: { product: Product }) => {
     toast.success("Product added to cart!");
   };
   return (
-    <div className="group relative max-w-sm rounded-md bg-[#080908] shadow-sm shadow-gray-500/40 transition-all hover:shadow-xl border border-gray-800">
+    <Link
+      href={`/shop/${id}`}
+      className="group relative max-w-sm rounded-md bg-[#080908] shadow-sm shadow-[#043d13]/40 transition-all hover:shadow-xl border border-gray-800"
+    >
       {/* Top Section: Labels (Left) and Cart Icon (Right) */}
       <div className="absolute left-2 top-2 z-10 flex flex-col gap-1">
         {isNew && (
@@ -87,12 +92,15 @@ const ProductCard = ({ product }: { product: Product }) => {
 
         {/* Action Button */}
         <div className="flex items-center justify-center">
-          <button className="flex w-28 text-xs items-center justify-center gap-1 rounded-lg bg-[#1e3316] py-2 font-bold uppercase text-slate-100 transition-all hover:bg-[#043d13] active:scale-[0.98] cursor-pointer">
+          <Link
+            href={`/checkout?direct=${id}`}
+            className="flex w-28 text-xs items-center justify-center gap-1 rounded-lg bg-[#043d13] py-2 font-bold uppercase text-slate-100 transition-all hover:bg-[#1e3316] active:scale-[0.98] cursor-pointer"
+          >
             Order Now
-          </button>
+          </Link>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

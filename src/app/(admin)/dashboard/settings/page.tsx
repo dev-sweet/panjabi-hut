@@ -125,7 +125,7 @@ const SettingsPage = () => {
                   <p className="font-bold text-slate-800">{item.title}</p>
                   <p className="text-xs text-slate-500">{item.desc}</p>
                 </div>
-                <button
+                {/* <button
                   onClick={() =>
                     setNotifications((prev) => ({
                       ...prev,
@@ -137,7 +137,7 @@ const SettingsPage = () => {
                   <div
                     className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${notifications[item.key as keyof typeof prev] ? "translate-x-7" : "translate-x-1"}`}
                   />
-                </button>
+                </button> */}
               </div>
             ))}
           </div>

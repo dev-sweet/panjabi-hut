@@ -6,18 +6,21 @@ import { Product } from "@/types/product";
 import { prisma } from "../../../lib/prisma";
 
 export default async function Home() {
-  const products = await prisma.product.findMany();
   // const eidCollectionProducts = products.filter(
   //   (product) => product.category === "Eid Collection",
   // );
 
-  console.log(products);
+  const products = await prisma.product.findMany({});
+  const eidCollection = products.filter((product) => product.isEidCollection);
+  const trendingProducts = products.filter((product) => product.isTrending);
+  const premiumPanjabi = products.filter((product) => product.isPremium);
+
   return (
     <>
       <HeroSection />
-      <EidCollection products={products} />
-      {/* <Trending />
-      <PremiumPanjabi /> */}
+      <EidCollection products={eidCollection} />
+      <Trending products={trendingProducts} />
+      <PremiumPanjabi products={premiumPanjabi} />
     </>
   );
 }

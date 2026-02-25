@@ -12,10 +12,10 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
+    { name: "Shop", href: "/shop" },
     { name: "New Arrival", href: "/new" },
     { name: "Eid Collection", href: "/eid-collection" },
     { name: "Premium Panjabi", href: "/premium" },
-    { name: "Contact", href: "/contact" },
   ];
 
   return (
@@ -43,7 +43,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-sm font-medium hover:text-amber-600 transition"
+                  className="text-sm font-medium hover:text-[#2fa83e] transition"
                 >
                   {link.name}
                 </Link>
@@ -51,8 +51,9 @@ export default function Navbar() {
             </nav>
 
             {/* Right Icons */}
-            <div className="flex items-center gap-3">
-              {/* <Search className="hidden md:flex h-5 w-5" /> */}
+            {/* <Search className="hidden md:flex h-5 w-5" /> */}
+            {/* <div className="flex items-center gap-3">
+              
 
               <button
                 onClick={() => setCartOpen(true)}
@@ -60,7 +61,7 @@ export default function Navbar() {
               >
                 <ShoppingCart className="h-5 w-5" /> Cart
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>
@@ -101,7 +102,7 @@ export default function Navbar() {
       </aside>
 
       {/* Cart Sidebar */}
-      <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      {/* <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} /> */}
     </>
   );
 }
