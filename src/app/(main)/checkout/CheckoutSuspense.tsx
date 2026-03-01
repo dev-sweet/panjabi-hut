@@ -44,8 +44,6 @@ export default function CheckoutPage() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const qty = searchParams.get("qty");
-
-  const params = useParams();
   const { cart: storedCart } = useCartStore();
   const cartItems = useMemo(() => {
     if (id) {
