@@ -9,7 +9,7 @@ const ProductDetailsPage = async ({
   const { id } = await params;
   let loading = true;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}api/products/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`,
     {
       next: {
         revalidate: 3600,
