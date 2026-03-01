@@ -1,11 +1,11 @@
 "use client";
-import React from "react";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { Product } from "@/types/product";
 import { useCartStore } from "@/store/useCartStore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const { addToCart } = useCartStore();
@@ -26,13 +26,22 @@ const ProductCard = ({ product }: { product: Product }) => {
     ((basePrice - (sellingPrice || 0)) / basePrice) * 100,
   );
 
-  const handleAddToCart = (itemId: string) => {
-    addToCart({ id: itemId, quantity: 1 });
+  const router = useRouter();
+
+  const handleAddToCart = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    addToCart({ id, quantity: 1 });
     toast.success("Product added to cart!");
   };
+
+  const handleClickOder = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    router.push(`/checkout?id=${id}&qty=1`);
+  };
+
   return (
-    <Link
-      href={`/shop/${id}`}
+    <div
+      onClick={() => router.push(`/shop/${id}`)}
       className="group relative max-w-sm rounded-md bg-[#080908] shadow-sm shadow-[#043d13]/40 transition-all hover:shadow-xl border border-gray-800"
     >
       {/* Top Section: Labels (Left) and Cart Icon (Right) */}
@@ -55,7 +64,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       </div>
 
       <button
-        onClick={() => handleAddToCart(id)}
+        onClick={handleAddToCart}
         className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-lg bg-[#080908] text-white shadow-sm transition-colors hover:bg-gray-700 hover:text-white"
         aria-label="Add to cart"
       >
@@ -92,15 +101,15 @@ const ProductCard = ({ product }: { product: Product }) => {
 
         {/* Action Button */}
         <div className="flex items-center justify-center">
-          <Link
-            href={`/checkout?direct=${id}`}
+          <button
+            onClick={handleClickOder}
             className="flex w-28 text-xs items-center justify-center gap-1 rounded-lg bg-[#043d13] py-2 font-bold uppercase text-slate-100 transition-all hover:bg-[#1e3316] active:scale-[0.98] cursor-pointer"
           >
             Order Now
-          </Link>
+          </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -82,7 +82,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
 
             {/* Quantity and Actions */}
             <div className="space-y-4 pt-4">
-              {/* <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center gap-4">
                 <div className="flex items-center rounded-xl border border-white/10 bg-white/5 p-1 w-full sm:w-auto justify-between">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -101,18 +101,17 @@ const ProductDetails = ({ product }: { product: Product }) => {
                   </button>
                 </div>
 
-                <button className="w-full flex-1 rounded-xl bg-[#2fa83e] py-4 font-bold text-gray-200 shadow-lg shadow-emerald-900/20 transition-all hover:bg-[#2fa83e]/90 active:scale-[0.98]">
+                {/* <button className="w-full flex-1 rounded-xl bg-[#2fa83e] py-4 font-bold text-gray-200 shadow-lg shadow-emerald-900/20 transition-all hover:bg-[#2fa83e]/90 active:scale-[0.98]">
                   Add to Cart — $
                   {(product.basePrice * quantity).toLocaleString()}
-                </button>
-              </div> */}
-
-              <Link
-                href={`/checkout?direct=${product.id}`}
-                className="rounded-xl bg-[#2fa83e] py-3 px-8 font-bold text-gray-200 transition-all cursor-pointer hover:bg-[#2fa83e]/90 active:scale-[0.98]"
-              >
-                Buy It Now
-              </Link>
+                </button> */}
+                <Link
+                  href={`/checkout?type=direct&id=${product.id}&qty=${quantity}`}
+                  className="rounded-xl bg-[#2fa83e] py-4 px-8 font-bold text-gray-200 transition-all cursor-pointer hover:bg-[#2fa83e]/90 active:scale-[0.98]"
+                >
+                  Buy It Now
+                </Link>
+              </div>
             </div>
 
             {/* Trust Badges */}

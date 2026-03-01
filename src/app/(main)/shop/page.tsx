@@ -7,7 +7,7 @@ const ShopPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`)
+    fetch("api/products")
       .then((res) => res.json())
       .then((data) => setProducts(data.data));
   }, []);

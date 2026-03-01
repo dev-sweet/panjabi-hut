@@ -53,8 +53,6 @@ export default function Navbar() {
             {/* Right Icons */}
             {/* <Search className="hidden md:flex h-5 w-5" /> */}
             {/* <div className="flex items-center gap-3">
-              
-
               <button
                 onClick={() => setCartOpen(true)}
                 className="flex items-center gap-1 text-sm font-medium"
