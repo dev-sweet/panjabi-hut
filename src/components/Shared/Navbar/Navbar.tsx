@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Menu, X, ShoppingCart, User, Search, Shirt } from "lucide-react";
 import Image from "next/image";
 import CartSidebar from "@/components/Shared/CartSidebar/CartSidebar";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const path = usePathname();
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -43,7 +45,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-sm font-medium hover:text-[#2fa83e] transition"
+                  className={`text-sm font-medium hover:text-[#2fa83e] transition ${path === link.href ? "text-[#2fa83e]" : "text-white"}`}
                 >
                   {link.name}
                 </Link>
@@ -74,7 +76,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-full w-72 bg-gray-600 shadow-xl transition-transform duration-300 ${
+        className={`fixed top-0 left-0 z-50 h-full w-72 bg-[#080908] shadow-xl transition-transform duration-300 ${
           open ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -85,13 +87,13 @@ export default function Navbar() {
           </button>
         </div>
 
-        <nav className="flex flex-col gap-4 p-4">
+        <nav className="flex flex-col  p-4">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="text-sm font-medium"
+              className={`text-sm font-medium p-3 rounded-lg  transition-colors ${path === link.href ? "bg-[#2fa83e]" : "text-white"}`}
             >
               {link.name}
             </Link>

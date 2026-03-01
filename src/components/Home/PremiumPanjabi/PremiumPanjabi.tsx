@@ -1,5 +1,3 @@
-import React from "react";
-import Image from "next/image";
 import ProductCard from "@/components/Shared/ProductCard/ProductCard";
 import { Product } from "@/types/product";
 

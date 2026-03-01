@@ -37,7 +37,9 @@ const ProductManagement = () => {
   };
   // loading
   if (loading) {
-    return <h1>Loading..</h1>;
+    <div className="flex items-center justify-center h-screen">
+      <p className="text-lg font-semibold text-gray-300">Loading...</p>
+    </div>;
   }
   return (
     <div className="space-y-6">

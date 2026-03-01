@@ -1,20 +1,22 @@
 "use client";
 import ProductCard from "@/components/Shared/ProductCard/ProductCard";
 import { Product } from "@/types/product";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const ShopPage = () => {
+const NewProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const path = usePathname();
 
   useEffect(() => {
-    fetch("api/products")
+    fetch("/api/products?tag=isEidCollection")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.data);
         setLoading(false);
       });
-  }, []);
+  }, [path]);
 
   if (loading) {
     return (
@@ -25,10 +27,7 @@ const ShopPage = () => {
   }
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* <h1 className="font-bold my-10 flex items-center gap-2">
-        <House size={12} className="inline mr-2" />
-        /Shop
-      </h1> */}
+      <h1 className="text-2xl font-bold pb-2">Eid Collections</h1>
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-8">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
@@ -38,4 +37,4 @@ const ShopPage = () => {
   );
 };
 
-export default ShopPage;
+export default NewProducts;

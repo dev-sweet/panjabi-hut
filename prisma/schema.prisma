@@ -37,7 +37,7 @@ model Product {
   isTrending       Boolean  @default(false)
   isPremium        Boolean  @default(false)
   isNew            Boolean  @default(false)
-  isEidCollection Boolean  @default(false)
+  isEidCollection  Boolean  @default(false)
 
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt

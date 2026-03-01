@@ -68,7 +68,7 @@ const HeroSection = () => {
                   </span>
                 </div>
                 <p className="text-xs text-white font-light tracking-wide italic">
-                  "120s Fine Egyptian Cotton with <br /> Emerald Silk Weaving"
+                  120s Fine Egyptian Cotton with <br /> Emerald Silk Weaving
                 </p>
               </div>
             </div>
